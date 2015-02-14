@@ -1,0 +1,22 @@
+{
+  "name": "zoddo/php-irc",
+  "description": "A PHP API for IRC connections",
+  "keywords": ["PHP", "API", "IRC", "SSL"],
+  "homepage": "https://github.com/Zoddo/php-irc",
+  "license": "GPLv2",
+  "authors": [
+    {
+      "name": "Zoddo",
+      "email": "zoddo.ino@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3"
+  },
+  "suggest": {
+    "ext-openssl": "Allows SSL connections"
+  },
+  "autoload": {
+    "psr-4": { "Zoddo\\irc\\": "" }
+  }
+}
