@@ -135,11 +135,12 @@ class IrcConnection
 
 	/**
 	 * @param string $channel
+	 * @param string $password
 	 * @return $this
 	 */
-	public function join($channel)
+	public function join($channel, $password = '')
 	{
-		$this->send(sprintf('JOIN %s', $channel));
+		$this->send(sprintf('JOIN %s %s', $channel, $password));
 
 		return $this;
 	}
