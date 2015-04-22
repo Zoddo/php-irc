@@ -25,6 +25,7 @@ class InvalidIrcResponseException extends \RuntimeException
 			$message = "The IRC response is invalid";
 		}
 
+		$this->raw = $raw;
 		parent::__construct($message, 500, $previous);
 	}
 
