@@ -64,7 +64,7 @@ class IrcConnection
 	public function connect()
 	{
 		$proto = ($this->config->getSsl()) ? 'ssl://' : 'tcp://';
-		if (!$this->socket = fsockopen($proto . $this->config->getHost(), $this->config->getPort(), $errno, $errstr))
+		if (!$this->socket = @fsockopen($proto . $this->config->getHost(), $this->config->getPort(), $errno, $errstr))
 		{
 			throw new SocketErrorException($errstr, $errno);
 		}
