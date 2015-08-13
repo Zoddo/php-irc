@@ -28,6 +28,11 @@ class IrcConnection
 	protected $socket = null;
 
 	/**
+	 * @var string
+	 */
+	protected $read_buffer = '';
+
+	/**
 	 * @param Config $config
 	 * @param Event $event
 	 */
@@ -216,7 +221,24 @@ class IrcConnection
 			throw new SocketDisconnectedException;
 		}
 
-		return fgets($this->socket);
+		$data = fgets($this->socket);
+		if ($data === false)
+		{
+			return $data;
+		}
+
+		if (substr($data, -1) != "\n")
+		{
+			$this->read_buffer .= $data;
+			return false;
+		}
+		else
+		{
+			$data = $this->read_buffer . $data;
+			$this->read_buffer = '';
+
+			return $data;
+		}
 	}
 
 	/**
@@ -235,13 +257,17 @@ class IrcConnection
 
 			$r = array($this->socket);
 			$w = $e = null;
-			if ($modified = stream_select($r, $w, $e, 1))
+			if (stream_select($r, $w, $e, 1))
 			{
-				break;
+				$data = $this->read();
+				if ($data !== false)
+				{
+					return $data;
+				}
 			}
 		} while($timeout && (microtime(true) - $start) <= $timeout);
 
-		return ($modified) ? $this->read() : false;
+		return false;
 	}
 
 	/**
