@@ -64,6 +64,36 @@ class IrcConnection
 	}
 
 	/**
+	 * Run the bot automatically (you need to use events to do actions)
+	 *
+	 * @return $this when the socket is disconnected
+	 */
+	public function run()
+	{
+		$this->connect();
+
+		try
+		{
+			while (!$this->feof())
+			{
+				$data = $this->irc_read(60); // We wait 60 seconds but it's arbitrary and can be safely modified...
+				if ($data === false)
+				{
+					continue;
+				}
+
+				$this->callListeners($data);
+			}
+		}
+		catch (SocketDisconnectedException $e)
+		{
+			return $this;
+		}
+
+		return $this;
+	}
+
+	/**
 	 * @return $this
 	 */
 	public function connect()
