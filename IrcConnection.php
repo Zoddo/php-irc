@@ -95,7 +95,7 @@ class IrcConnection
 			$data['raw'] = $this->read();
 		}
 
-		// Pas de données
+		// No data
 		if ($data['raw'] === false)
 		{
 			return false;
@@ -256,7 +256,7 @@ class IrcConnection
 		}
 		$this->event->callWriteListeners($data, $this);
 
-		// http://php.net/manual/fr/function.fwrite.php#refsect1-function.fwrite-notes
+		// http://php.net/manual/function.fwrite.php#refsect1-function.fwrite-notes
 		for ($written = 0; $written < strlen($data); $written += $fwrite)
 		{
 			if ($this->feof())
